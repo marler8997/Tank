@@ -1,0 +1,103 @@
+100+ UNIQUE levels
+online co-op
+online leaderboards
+online deathmatch
+level editor mode
+ability to submit and play levels from other players
+power ups in single player mode to achieve extra lives
+
+
+PowerUps
+	Smaller Tank
+	Faster Tank
+	Go Through Walls
+	
+	Bigger Bullets
+	More Bullets
+	Faster Bullets
+	BulletGoThroughWalls
+	
+	
+===============================================================================================
+Play
+===============================================================================================
+   Free Play: Start at whatever level you want, infinite lives, unlock levels as you progress
+   Hardcore Mode: Start with 3 lives, every 5 levels you get an extra, if you die you start over
+   Play User Levels: Play individual levels from users or level sequences
+   Play Online
+   --------------------------------------------------------------------------------------------
+	  -----------------------------------------------------------------------------------------
+      With Friend(s)
+	  -----------------------------------------------------------------------------------------
+         Join A Friend's Server (Their server could be FreePlay,Hardcore or DeathMatch)
+         Start Free Play server for friends to join
+         Start Hardcore server for friends to join
+         Start DeathMatch server for friends to join
+	  -----------------------------------------------------------------------------------------
+      Not With Friends
+	  -----------------------------------------------------------------------------------------
+         Community DeathMatch
+===============================================================================================
+Level Editor
+===============================================================================================
+   Make New Level
+   My Levels
+      List Levels...Allow to Edit
+   Level Sequences
+      An ordered list of levels that are publiched as a sequence of levels
+	  
+
+===============================================================================================
+Database Design
+===============================================================================================
+Table of users
+
+Uid,FirstName,LastName,Email,PassSalt,PassHash,
+
+LastLogin,LastHeartbeatReceived,LastHeartbeatSent
+
+Table of friendships
+
+LowerUid,HigherUid
+
+
+===============================================================================================
+Lan Game
+===============================================================================================
+A Lan Game is when multiple machines on the same lan want to network play with each other.
+You have one host and the rest join the host.
+When the host starts the game, it begins sending out a udp broadcast specifying that it is hosting a game.
+When a client requests to join a game, it starts broadcasting out a request to join a game, if the host
+sees this packet, it will immediately rebroadcast that it is hosting a game to that specific client.
+If for some reason this broadcast negotiation doesn't work, the client can simply use type in the ip
+address of the host.
+
+The type of play in a lan game is determined by the host.  They can play
+
+
+===============================================================================================
+Play With Friends or Without Friends
+===============================================================================================
+
+When a user starts the game and logs on, a tcp connection is made with the main Tank Server.
+This connection is kept open for the entirety of the game.
+It is closed by the client when they close their program.
+Every 5 minutes or so, the client and the server will send a heartbeat expecting a heartbeat ack.
+This will keep the TCP connection from expiring and also allow the server to determine who is online.
+
+
+In the game menus, you can click either
+   1) Host Friends
+   2) Join a Friend
+
+If you "Host Friends", a server is started on the Tank Server Farm.  A friend can find the server using the host's user name.  The host specifies who can join the server.  The tank database will keep track of friend connections so the host can just specify allow all my friends to join, or they can specify a select few.  A message is put in a queue so that when a friend logs on they can see that their friend is trying to host a game.  On the host game menu, a status window appears that shows the status of the game setup, who has joined or left, or chat messages. 
+If you "Join a Friend", you have a list of friends you can join.
+   
+   
+	  
+Note:
+ When an error occurs, save it somewhere, maybe send it to a server? (Give the option for the user to send the error)
+ 
+Note:
+ When the application is closed, the user should try to send an update to the TankComServer that it is closing the application
+
