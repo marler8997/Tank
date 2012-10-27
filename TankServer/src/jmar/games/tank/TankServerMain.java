@@ -9,6 +9,8 @@ import jmar.games.tank.StandardLevels;
 
 public class TankServerMain {
 	public static void main(String[] args) throws IOException {
+		
+		/*
 		Settings.checkThatSettingsAreValid();	
 		
 		TankClientStateForServer [] clientStates = TankGameSetupServer.runSetupServer();
@@ -20,5 +22,6 @@ public class TankServerMain {
 		
 		
 		TankGamePlayServer.runGame(clientStates, level);
+		*/
 	}
 }
